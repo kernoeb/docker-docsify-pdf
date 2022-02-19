@@ -1,46 +1,31 @@
 {
   "name": "docsify-pdf-converter",
-  "version": "2.1.0-beta.0",
+  "version": "3.0.0",
   "description": "A magical pdf generator for docsify projects.",
   "main": "index.js",
-  "author": {
-    "name": "Ivan Gorbunov",
-    "email": "meff34@gmail.com",
-    "url": "https://github.com/meff34"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/meff34/docsify-to-pdf-converter.git"
-  },
-  "bin": {
-    "converter": ".bin/cli.js",
-    "docsify-pdf-converter": ".bin/cli.js"
-  },
   "scripts": {
-    "patch-release": "npm version patch && npm publish && git push --follow-tags"
+    "lint": "eslint src --fix"
   },
-  "keywords": [
-    "docsify",
-    "pdf",
-    "converter",
-    "cli"
-  ],
-  "license": "ISC",
+  "engines": {
+    "node": "v16"
+  },
   "dependencies": {
-    "colors": "^1.3.3",
-    "docsify-cli": "^4.3.0",
-    "find-free-port": "^2.0.0",
+    "colors": "^1.4.0",
+    "docsify-cli": "^4.4.3",
+    "fs-extra": "^10.0.0",
     "is-url": "^1.2.4",
-    "lodash": "^4.17.11",
-    "markdown-link-extractor": "^1.2.0",
-    "puppeteer": "^1.12.2",
+    "lodash": "^4.17.21",
+    "markdown-link-extractor": "^1.3.1",
+    "puppeteer": "^13.3.2",
     "rcfile": "^1.0.3",
-    "remark-parse": "^6.0.3",
-    "rimraf": "^2.6.3",
-    "unified": "^7.1.0",
-    "yesno": "^0.2.0"
+    "remark-parse": "^9.0.0",
+    "unified": "^9.2.2"
   },
   "devDependencies": {
-    "prettier": "^1.15.3"
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
   }
 }
