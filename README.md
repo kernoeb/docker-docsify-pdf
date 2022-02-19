@@ -12,6 +12,7 @@ A lot of fixes and improvements have been made :
 - Security/performance : 
   - Update dependencies (Puppeteer, Docsify, ...)
 - Feats :
+  - **Table of content** (based on sidebar)
   - **Docker** way to generate PDF
   - Highlight code blocks (with PrismJS)
   - **Multilingual** support
