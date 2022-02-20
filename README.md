@@ -29,14 +29,7 @@ A lot of fixes and improvements have been made :
 # Usage
 
 First, create a documentation in a `docs` directory (you can follow the repository example).  
-Create a `.docsifytopdfrc.js` file, with the following content :
-
-```
-module.exports = {
-  contents: [ "docs/_sidebar.md" ], // array of "table of contents" files path,
-  cover: "resources/cover.pdf", // pdf cover file path
-}
-```
+You need a `_sidebar.md`*.
 
 * Tip : if you cloned the project, you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
 
@@ -62,7 +55,7 @@ docker run --rm -it \
   ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
-> To change `_sidebar.md` location (for example with multi-language support) :  
+> *To change `_sidebar.md` location (for example with multi-language support) :  
 > Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
 
 > The PDF cover is optional (just don't add the mapping).  
