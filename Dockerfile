@@ -1,4 +1,4 @@
-FROM node:16-alpine3.15
+FROM node:16.14.0-alpine3.15
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 
@@ -29,7 +29,8 @@ RUN chown -R node:node /home/node
 RUN pnpm install --frozen-lockfile --prod
 
 COPY --chown=node:node index.html index.js index.html ./
-COPY --chown=node:node resources/ ./resources/
+COPY --chown=node:node resources/js/ ./resources/js/
+COPY --chown=node:node resources/css/ ./resources/css/
 COPY --chown=node:node src/ ./src/
 
 EXPOSE 3000

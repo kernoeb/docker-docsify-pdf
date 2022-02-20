@@ -26,7 +26,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
 
     if (renderProcessingErrors.length) { logger.warn('anchors processing errors', renderProcessingErrors) }
 
-    await page.pdf({
+    const pdfOptions = {
       format: 'a4',
       printBackground: true,
       landscape: false,
@@ -35,23 +35,25 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       displayHeaderFooter: true,
       path: path.resolve(pathToPublic),
       margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 }
-    })
+    }
 
-    if (cover) {
-      logger.info('rendering cover')
-      if (!await fsExtra.exists(path.resolve(cover))) {
-        logger.warn(`Cover image ${cover} does not exist`)
-      } else {
-        await new Promise((resolve, reject) => {
-          merge([path.resolve(cover), path.resolve(pathToPublic)], path.resolve(pathToPublic), (err) => {
-            if (err) {
-              return reject(new Error(`Error merging cover and pdf: ${err}`))
-            }
-            logger.success('cover merged')
-            resolve()
-          })
+    console.log(pdfOptions)
+
+    await page.pdf(pdfOptions)
+
+    logger.info('rendering cover')
+    if (!await fsExtra.exists(path.resolve(cover))) {
+      logger.warn(`Cover image ${cover} does not exist`)
+    } else {
+      await new Promise((resolve, reject) => {
+        merge([path.resolve(cover), path.resolve(pathToPublic)], path.resolve(pathToPublic), (err) => {
+          if (err) {
+            return reject(new Error(`Error merging cover and pdf: ${err}`))
+          }
+          logger.success('cover merged')
+          resolve()
         })
-      }
+      })
     }
 
     return await browser.close()

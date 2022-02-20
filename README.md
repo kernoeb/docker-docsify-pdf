@@ -40,21 +40,24 @@ module.exports = {
 
 * Tip : if you cloned the project, you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
 
-**Pull the image** :
+**Pull the image** and create output directory :
 ```bash
 # To build locally
 # docker build -t docsify-pdf-generator .
 docker pull ghcr.io/kernoeb/docker-docsify-pdf:latest
+
+# To give the good permissions (no root!)
+mkdir -p $(pwd)/pdf
 ```
 
 **Run the container** (volumes are important) :
 ```bash
-docker run --rm \
+docker run --rm -it \
   --cap-add=SYS_ADMIN \
   --user $(id -u):$(id -g) \
-  -v $(pwd)/.docsifytopdfrc.js:/home/node/.docsifytopdfrc.js:ro \
   -v $(pwd)/docs:/home/node/docs:ro \
   -v $(pwd)/pdf:/home/node/pdf:rw \
+  -v $(pwd)/resources/covers/cover.pdf:/home/node/resources/cover.pdf:ro \
   -e "PDF_OUTPUT_NAME=DOCUMENTATION.pdf" \
   ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
@@ -62,6 +65,7 @@ docker run --rm \
 > To change `_sidebar.md` location (for example with multi-language support) :  
 > Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
 
+> The PDF cover is optional (just don't add the mapping).  
 > You can also customize the PDF css by adding a volume mapped to the `resources` directory.
 
 

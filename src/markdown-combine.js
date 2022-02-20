@@ -22,7 +22,7 @@ const combineMarkdowns = ({ contents, pathToStatic, mainMdFilename }) => async l
     )
 
     const resultFilePath = path.resolve(pathToStatic, mainMdFilename)
-    const sidebar = await Promise.all(contents.map(async doc => fs.readFile(doc, { encoding: 'utf8' })))
+    const sidebar = await Promise.all((Array.isArray(contents) ? contents : [contents]).map(async doc => fs.readFile(doc, { encoding: 'utf8' })))
 
     files = [
       {

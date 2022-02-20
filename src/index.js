@@ -5,22 +5,21 @@ const logger = require('./logger.js')
 const defaultConfig = {
   pathToStatic: '.static',
   mainMdFilename: 'main.md',
-  pathToPublic: process.env.PDF_OUTPUT_NAME ? path.join('./pdf/', process.env.PDF_OUTPUT_NAME) : './pdf/readme.pdf',
+  pathToPublic: process.env.PDF_OUTPUT_NAME ? path.join('./pdf/', process.env.PDF_OUTPUT_NAME) : './pdf/DOC.pdf',
   contents: 'docs/_sidebar.md',
   pathToDocsifyEntryPoint: '.',
-  cover: null
+  cover: 'resources/cover.pdf'
 }
 
-const run = async incomingConfig => {
+const run = async () => {
   const docsifyRendererPort = 17000
   const docsifyLiveReloadPort = 18000
-  const preBuildedConfig = merge(defaultConfig, incomingConfig)
 
   logger.info('Build with settings:')
-  console.log(JSON.stringify(preBuildedConfig, null, 2))
+  console.log(defaultConfig)
   console.log('\n')
 
-  const config = merge(preBuildedConfig, { docsifyRendererPort, docsifyLiveReloadPort })
+  const config = merge(defaultConfig, { docsifyRendererPort, docsifyLiveReloadPort })
 
   const { closeProcess, prepareEnv, cleanUp } = require('./utils.js')(config)
   const { createRoadMap } = require('./contents-builder.js')(config)
