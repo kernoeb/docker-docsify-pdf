@@ -22,3 +22,17 @@ A lot of fixes and improvements have been made :
   - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
   - Remove useless stuff
+
+
+# Usage
+
+```
+# docker build -t docsify-pdf-generator .
+docker run --rm \
+  --cap-add=SYS_ADMIN \
+  --user $(id -u):$(id -g) \
+  -v $(pwd)/.docsifytopdfrc.js:/home/node/.docsifytopdfrc.js:ro \
+  -v $(pwd)/docs:/home/node/docs:ro \
+  -v $(pwd)/pdf:/home/node/pdf:rw \
+  docsify-pdf-generator
+```

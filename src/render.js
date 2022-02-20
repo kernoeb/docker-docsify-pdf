@@ -6,16 +6,9 @@ const runSandboxScript = require('./run-sandbox-script.js')
 const merge = require('easy-pdf-merge')
 
 const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
-  let headless = true
-  // check if --headless is passed as an argument
-  const args = process.argv.slice(2)
-  if (args.includes('--headless=false')) {
-    headless = false
-  }
-
   const browser = await puppeteer.launch({
-    headless,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'], // Needed for Docker
+    headless: true,
+    args: ['--disable-dev-shm-usage'], // Needed for Docker
     defaultViewport: { width: 1200, height: 1000 }
   })
   try {
@@ -32,8 +25,6 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
     })
 
     if (renderProcessingErrors.length) { logger.warn('anchors processing errors', renderProcessingErrors) }
-
-    if (!headless) await new Promise(resolve => setTimeout(resolve, 600000))
 
     await page.pdf({
       format: 'a4',
