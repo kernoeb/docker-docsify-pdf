@@ -6,9 +6,10 @@ A lot of fixes and improvements have been made :
 
 - Fix : 
   - Slugify / internal **URL** (some URLs were not properly encoded)
-  - "localhost" links are now disabled
+  - `localhost` links are now disabled
   - **Codeblocks** (some code blocks were sliced)
   - Better margins in the final PDF
+  - Page breaks between sections
 - Security/performance : 
   - Update dependencies (Puppeteer, Docsify, ...)
 - Feats :
@@ -17,6 +18,6 @@ A lot of fixes and improvements have been made :
   - Highlight code blocks (with PrismJS)
   - **Multilingual** support
 - Chore : 
-  - Migration to pnpm (no more npm)
+  - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
   - Remove useless stuff
