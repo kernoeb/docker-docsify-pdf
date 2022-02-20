@@ -28,7 +28,17 @@ A lot of fixes and improvements have been made :
 
 # Usage
 
-* Tip : you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
+First, create a documentation in a `docs` directory (you can follow the repository example).  
+Create a `.docsifytopdfrc.js` file, with the following content :
+
+```
+module.exports = {
+  contents: [ "docs/_sidebar.md" ], // array of "table of contents" files path,
+  cover: "resources/cover.pdf", // pdf cover file path
+}
+```
+
+* Tip : if you cloned the project, you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
 
 **Pull the image** :
 ```bash
