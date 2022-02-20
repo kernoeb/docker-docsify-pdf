@@ -34,7 +34,7 @@ A lot of fixes and improvements have been made :
 ```bash
 # To build locally
 # docker build -t docsify-pdf-generator .
-docker pull ghcr.io/kernoeb/docker-docsify-pdf:main
+docker pull ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
 **Run the container** (volumes are important) :
@@ -46,7 +46,7 @@ docker run --rm \
   -v $(pwd)/docs:/home/node/docs:ro \
   -v $(pwd)/pdf:/home/node/pdf:rw \
   -e "PDF_OUTPUT_NAME=DOCUMENTATION.pdf" \
-  ghcr.io/kernoeb/docker-docsify-pdf:main
+  ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
 > To change `_sidebar.md` location (for example with multi-language support) :  
