@@ -47,6 +47,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
     console.log(pdfOptions)
 
     await page.pdf(pdfOptions)
+    await browser.close()
 
     logger.info('rendering cover')
     if (!await fsExtra.exists(path.resolve(cover))) {
@@ -62,8 +63,6 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
         })
       })
     }
-
-    return await browser.close()
   } catch (e) {
     await browser.close()
     throw e
