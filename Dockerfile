@@ -2,6 +2,7 @@ FROM node:16-alpine3.15
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 
+# Pnpm is used to install packages
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
 RUN USER=node && \
@@ -13,7 +14,6 @@ RUN USER=node && \
     printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 
 USER node:node
-
 WORKDIR /home/node
 
 ENV NODE_ENV production
@@ -31,9 +31,6 @@ RUN pnpm install --frozen-lockfile --prod
 COPY --chown=node:node index.html index.js index.html ./
 COPY --chown=node:node resources/ ./resources/
 COPY --chown=node:node src/ ./src/
-
-
-RUN ls -lah
 
 EXPOSE 3000
 
