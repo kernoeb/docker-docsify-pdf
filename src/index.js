@@ -7,7 +7,8 @@ const defaultConfig = {
   mainMdFilename: 'main.md',
   pathToPublic: './pdf/readme.pdf',
   contents: 'docs/_sidebar.md',
-  pathToDocsifyEntryPoint: '.'
+  pathToDocsifyEntryPoint: '.',
+  cover: null
 }
 
 const run = async incomingConfig => {
@@ -21,9 +22,9 @@ const run = async incomingConfig => {
 
   const config = merge(preBuildedConfig, { docsifyRendererPort, docsifyLiveReloadPort })
 
-  const { combineMarkdowns } = require('./markdown-combine.js')(config)
   const { closeProcess, prepareEnv, cleanUp } = require('./utils.js')(config)
   const { createRoadMap } = require('./contents-builder.js')(config)
+  const { combineMarkdowns } = require('./markdown-combine.js')(config)
   const { runDocsifyRenderer } = require('./docsify-server.js')(config)
   const { htmlToPdf } = require('./render.js')(config)
 

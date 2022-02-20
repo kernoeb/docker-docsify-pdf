@@ -12,6 +12,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "docsify-cli": "^4.4.3",
+    "easy-pdf-merge": "^0.2.6",
     "fs-extra": "^10.0.0",
     "is-url": "^1.2.4",
     "lodash": "^4.17.21",

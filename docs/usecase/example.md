@@ -1,7 +1,7 @@
-# 1.1 - Je ne t'abandonnerai jamais
+# 1.1 - Never Gonna Give You Up
 
 ## Description
 
-C'est un **exemple**
+It's an **example**
 
-![Rick.png](img.png)
+![Rick.png](img.png ':size=400')

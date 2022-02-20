@@ -1,9 +1,11 @@
 const path = require('path')
 const puppeteer = require('puppeteer')
+const fsExtra = require('fs-extra')
 const logger = require('./logger.js')
 const runSandboxScript = require('./run-sandbox-script.js')
+const merge = require('easy-pdf-merge')
 
-const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, pdfOptions, docsifyRendererPort }) => {
+const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
   let headless = true
   // check if --headless is passed as an argument
   const args = process.argv.slice(2)
@@ -13,7 +15,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, pdfOption
 
   const browser = await puppeteer.launch({
     headless,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'], // Needed for Docker
     defaultViewport: { width: 1200, height: 1000 }
   })
   try {
@@ -44,6 +46,23 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, pdfOption
       margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 }
     })
 
+    if (cover) {
+      logger.info('rendering cover')
+      if (!await fsExtra.exists(path.resolve(cover))) {
+        logger.warn(`Cover image ${cover} does not exist`)
+      } else {
+        await new Promise((resolve, reject) => {
+          merge([path.resolve(cover), path.resolve(pathToPublic)], path.resolve(pathToPublic), (err) => {
+            if (err) {
+              return reject(new Error(`Error merging cover and pdf: ${err}`))
+            }
+            logger.success('cover merged')
+            resolve()
+          })
+        })
+      }
+    }
+
     return await browser.close()
   } catch (e) {
     await browser.close()
@@ -51,15 +70,15 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, pdfOption
   }
 }
 
-const htmlToPdf = ({ mainMdFilename, pathToStatic, pathToPublic, pdfOptions, docsifyRendererPort }) => async () => {
+const htmlToPdf = ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => async () => {
   const { closeProcess } = require('./utils.js')({ pathToStatic })
   try {
     return await renderPdf({
       mainMdFilename,
       pathToStatic,
       pathToPublic,
-      pdfOptions,
-      docsifyRendererPort
+      docsifyRendererPort,
+      cover
     })
   } catch (err) {
     logger.err('puppeteer renderer error:', err)

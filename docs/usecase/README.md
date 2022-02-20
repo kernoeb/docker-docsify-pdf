@@ -1,17 +1,17 @@
-# 1 - Cas d'utilisation
+# 1 - Use case
 
-C'est cool non ?
+This link is very [cool](example.md).
 
 | Syntax    | Description |
 |-----------|-------------|
 | Header    | Title       |
 | Paragraph | Text        |
 
-Dans un premier temps, voici un `tableau`.
+In this first paragraph, I will show you a `table`.
 
 ```json
 {
-  "title": "Tableau",
-  "text": "C'est cool non ?"
+  "name": "Rick Astley",
+  "job": "Rockstar"
 }
 ```

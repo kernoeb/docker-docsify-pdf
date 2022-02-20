@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   colors: ^1.4.0
   docsify-cli: ^4.4.3
+  easy-pdf-merge: ^0.2.6
   eslint: ^7.32.0
   eslint-config-standard: ^16.0.3
   eslint-plugin-import: ^2.25.4
@@ -20,6 +21,7 @@ specifiers:
 dependencies:
   colors: 1.4.0
   docsify-cli: 4.4.3
+  easy-pdf-merge: 0.2.6
   fs-extra: 10.0.0
   is-url: 1.2.4
   lodash: 4.17.21
@@ -674,6 +676,11 @@ packages:
 
   /duplexer3/0.1.4:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}
+    dev: false
+
+  /easy-pdf-merge/0.2.6:
+    resolution: {integrity: sha512-NJ8h82VZQxSt+2Xzb9A9eBasBnH+oltTULri45ulSzJ17TJwdH6LDqHcBWqbcbIfONL2rkuY0omsxpvtCIE46w==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /ee-first/1.1.1:
