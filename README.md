@@ -28,14 +28,17 @@ A lot of fixes and improvements have been made :
 
 # Usage
 
+* Tip : you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
+
+**Pull the image** :
 ```bash
 # To build locally
 # docker build -t docsify-pdf-generator .
 docker pull ghcr.io/kernoeb/docker-docsify-pdf:main
+```
 
-# Run the container
-# Volumes are important
-
+**Run the container** (volumes are important) :
+```bash
 docker run --rm \
   --cap-add=SYS_ADMIN \
   --user $(id -u):$(id -g) \
@@ -48,8 +51,6 @@ docker run --rm \
 
 > To change `_sidebar.md` location (for example with multi-language support) :  
 > Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
-
-* Tip : you can run `zx README.md` to generate the PDF if you have [zx](https://github.com/google/zx)
 
 > You can also customize the PDF css by adding a volume mapped to the `resources` directory.
 
