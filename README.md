@@ -34,5 +34,5 @@ docker run --rm \
   -v $(pwd)/.docsifytopdfrc.js:/home/node/.docsifytopdfrc.js:ro \
   -v $(pwd)/docs:/home/node/docs:ro \
   -v $(pwd)/pdf:/home/node/pdf:rw \
-  docsify-pdf-generator
+  ghcr.io/kernoeb/docker-docsify-pdf:main
 ```
