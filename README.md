@@ -39,5 +39,9 @@ docker run --rm \
   -v $(pwd)/.docsifytopdfrc.js:/home/node/.docsifytopdfrc.js:ro \
   -v $(pwd)/docs:/home/node/docs:ro \
   -v $(pwd)/pdf:/home/node/pdf:rw \
+  -e "PDF_OUTPUT_NAME=DOCUMENTATION.pdf" \
   ghcr.io/kernoeb/docker-docsify-pdf:main
 ```
+
+> To change `_sidebar.md` location (for example with multi-language support) :  
+> Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command

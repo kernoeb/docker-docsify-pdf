@@ -5,7 +5,7 @@ const logger = require('./logger.js')
 const defaultConfig = {
   pathToStatic: '.static',
   mainMdFilename: 'main.md',
-  pathToPublic: './pdf/readme.pdf',
+  pathToPublic: process.env.PDF_OUTPUT_NAME ? path.join('./pdf/', process.env.PDF_OUTPUT_NAME) : './pdf/readme.pdf',
   contents: 'docs/_sidebar.md',
   pathToDocsifyEntryPoint: '.',
   cover: null
