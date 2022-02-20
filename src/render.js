@@ -7,7 +7,7 @@ const merge = require('easy-pdf-merge')
 
 const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: !process.env.DEBUG_HEADLESS,
     args: ['--disable-dev-shm-usage'], // Needed for Docker
     defaultViewport: { width: 1200, height: 1000 }
   })
@@ -23,6 +23,13 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       mainMdFilenameWithoutExt,
       pathToStatic
     })
+
+    logger.info('Version : ' + await page.browser().version())
+
+    if (process.env.DEBUG_HEADLESS) {
+      // Pause 10 minutes
+      await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000))
+    }
 
     if (renderProcessingErrors.length) { logger.warn('anchors processing errors', renderProcessingErrors) }
 
