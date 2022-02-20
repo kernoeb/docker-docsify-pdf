@@ -27,7 +27,12 @@ A lot of fixes and improvements have been made :
 # Usage
 
 ```
+# To build locally
 # docker build -t docsify-pdf-generator .
+
+# Run the container
+# Volumes are important
+
 docker run --rm \
   --cap-add=SYS_ADMIN \
   --user $(id -u):$(id -g) \

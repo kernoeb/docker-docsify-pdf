@@ -35,4 +35,4 @@ COPY --chown=node:node src/ ./src/
 EXPOSE 3000
 
 ENTRYPOINT ["fixuid"]
-CMD [ "node", "index.js", "; tail -f /dev/null" ]
+CMD [ "node", "index.js" ]
