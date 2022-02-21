@@ -13,8 +13,10 @@ RUN USER=node && \
     mkdir -p /etc/fixuid && \
     printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/node/pdf\n  - /home/node/.static" > /etc/fixuid/config.yml
 
-USER node:node
 WORKDIR /home/node
+RUN mkdir -p /home/node/.static/ && chown -R node:node /home/node/.static/
+
+USER node:node
 
 ENV NODE_ENV production
 
