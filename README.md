@@ -12,6 +12,7 @@ A lot of fixes and improvements have been made :
   - **Codeblocks** (some code blocks were sliced)
   - Better margins in the final PDF
   - Page breaks between sections
+  - If an image was used multiple times in the same section, it was not working
 - Security/performance : 
   - Update dependencies (Puppeteer, Docsify, ...)
 - Feats :

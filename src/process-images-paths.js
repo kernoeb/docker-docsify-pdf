@@ -20,8 +20,12 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
     .filter(isImg) // check if it's an image
     .map(link => ({ origin: link, processed: path.resolve(dir, link) }))
     .map(({ origin, processed }) => ({ origin, processed: path.relative(dirWithStatic, processed) }))
+    .reduce((acc, curr) => {
+      if (!acc.some(item => item.origin === curr.origin)) acc.push(curr)
+      return acc
+    }, [])
     .forEach(({ origin, processed }) => {
-      markdown = markdown.replace(origin, processed)
+      markdown = markdown.replaceAll(origin, processed)
     })
   return markdown
 }
