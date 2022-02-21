@@ -11,7 +11,7 @@ RUN USER=node && \
     chown root:root /usr/local/bin/fixuid && \
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \
-    printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/node/pdf" > /etc/fixuid/config.yml
 
 USER node:node
 WORKDIR /home/node
@@ -35,5 +35,6 @@ COPY --chown=node:node src/ ./src/
 
 EXPOSE 3000
 
+# make sure that the user is node:node
 ENTRYPOINT ["fixuid"]
 CMD [ "node", "index.js" ]
