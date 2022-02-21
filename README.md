@@ -62,6 +62,13 @@ docker run --rm -it \
 > You can also customize the PDF css by adding a volume mapped to the `resources` directory.
 
 
+If you have this error : `System limit for number of file watchers reached` :
+
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
+```
+cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
+
 # Screenshots
 
 ![Screenshot 1](img/capture1.png)
