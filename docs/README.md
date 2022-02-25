@@ -1,5 +1,8 @@
 # Documentation
 
+{{fa book}} An icon  
+{{fa cog}} Some settings  
+
 Hey there! Markdown is a **simple** way to write text.
 
 Lorem ipsum dolor sit **amet**, consectetur adipiscing elit. Proin sit amet nibh tellus. Proin placerat pellentesque eros quis laoreet. Donec a lectus sed nisl mattis **consequat**. Nunc vel quam in est sagittis imperdiet. Nulla imperdiet neque tortor, ullamcorper sodales magna sollicitudin sed. Integer _hendrerit_ felis eget est convallis semper. Morbi ante lectus, mattis in enim nec, tincidunt auctor sem. Ut fermentum neque nec nulla _tempor_, in eleifend lacus aliquet.

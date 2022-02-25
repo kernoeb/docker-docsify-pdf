@@ -21,6 +21,7 @@ A lot of fixes and improvements have been made :
   - **Docker** way to generate PDF
   - Highlight code blocks (with PrismJS)
   - **Multilingual** support
+  - Font Awesome icons support, example : `{{fa cog}}`
 - Chore : 
   - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
@@ -63,10 +64,11 @@ docker run --rm -it \
 > You can also customize the PDF css by adding a volume mapped to the `resources` directory.
 
 
-If you have this error : `System limit for number of file watchers reached` :
+If you have this error : `System limit for number of file watchers reached` or `Error: EMFILE: too many open files` :
 
 ```
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
+echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
+echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
 ```
 cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
 
