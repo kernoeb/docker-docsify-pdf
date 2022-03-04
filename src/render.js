@@ -17,7 +17,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
 
     const page = await browser.newPage()
 
-    await page.goto(docsifyUrl, { waitUntil: 'networkidle0', timeout: 100000 }) // try to wait for the page to load
+    await page.goto(docsifyUrl, { waitUntil: 'networkidle0', timeout: 300000 }) // try to wait for the page to load, especially for heavy pages
     await page.emulateMediaType('screen')
 
     const renderProcessingErrors = await runSandboxScript(page, {
