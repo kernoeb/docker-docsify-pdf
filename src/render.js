@@ -17,7 +17,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
 
     const page = await browser.newPage()
 
-    await page.goto(docsifyUrl, { waitUntil: 'networkidle0', timeout: 300000 }) // try to wait for the page to load, especially for heavy pages
+    await page.goto(docsifyUrl, { waitUntil: 'networkidle0', timeout: 360000 }) // try to wait for the page to load, especially for heavy pages
     await page.emulateMediaType('screen')
 
     const renderProcessingErrors = await runSandboxScript(page, {
@@ -42,7 +42,8 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       footerTemplate: '<p style="margin: auto;text-align: center;font-size: 8px;"><span class="pageNumber"></span>&nbsp;/&nbsp;<span class="totalPages"></span></p>',
       displayHeaderFooter: true,
       path: path.resolve(pathToPublic),
-      margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 }
+      margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 },
+      timeout: 360000 // 5 minutes
     }
 
     console.log(pdfOptions)
