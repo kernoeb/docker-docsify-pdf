@@ -1,9 +1,9 @@
-FROM node:16.15.0-alpine3.15
+FROM node:16.15.1-alpine3.16
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 
 # Pnpm is used to install packages
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install --location=global pnpm
 
 RUN USER=node && \
     GROUP=node && \
