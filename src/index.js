@@ -1,6 +1,23 @@
 const path = require('path')
 const { merge } = require('lodash')
 const logger = require('./logger.js')
+const fs = require('fs')
+const fsExtra = require('fs-extra')
+
+const uglify = require('uglify-js')
+
+const dir = path.resolve(__dirname, '../resources/js')
+if (!fs.existsSync(dir)) fsExtra.mkdirp(dir)
+
+const jsFiles = fs.readdirSync(path.resolve(__dirname, '../resources/js'))
+  .filter(file => file !== 'all.js')
+  .map(file => path.resolve(__dirname, '../resources/js/' + file))
+  .filter(file => file.endsWith('.js'))
+
+logger.info(jsFiles)
+
+const uglified = uglify.minify(jsFiles.map(file => fs.readFileSync(file, 'utf8')))
+fs.writeFileSync(path.resolve(__dirname, '../resources/js/all.js'), uglified.code)
 
 const defaultConfig = {
   pathToStatic: '.static',

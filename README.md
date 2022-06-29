@@ -57,6 +57,8 @@ docker run --rm -it \
   ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
+> You can add custom js files (plugins) : `-v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro`
+
 > *To change `_sidebar.md` location (for example with multi-language support) :  
 > Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
 

@@ -20,6 +20,7 @@
     "puppeteer": "^15.0.2",
     "rcfile": "^1.0.3",
     "remark-parse": "^9.0.0",
+    "uglify-js": "^3.16.1",
     "unified": "^9.2.2"
   },
   "devDependencies": {

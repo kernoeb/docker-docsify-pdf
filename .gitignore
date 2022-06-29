@@ -4,3 +4,4 @@ node_modules/
 pdf/*.pdf
 static/
 .static/
+/resources/js/all.js
