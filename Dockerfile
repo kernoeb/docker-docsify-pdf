@@ -11,7 +11,7 @@ RUN USER=node && \
     chown root:root /usr/local/bin/fixuid && \
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \
-    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/node/pdf\n  - /home/node/.static" > /etc/fixuid/config.yml
+    printf "user: $USER\ngroup: $GROUP\npaths:\n  - /home/node/pdf\n  - /home/node/.static\n  - /home/node/resources" > /etc/fixuid/config.yml
 
 WORKDIR /home/node
 RUN mkdir -p /home/node/.static/ && chown -R node:node /home/node/.static/
