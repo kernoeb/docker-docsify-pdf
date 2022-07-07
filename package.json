@@ -17,10 +17,10 @@
     "is-url": "^1.2.4",
     "lodash": "^4.17.21",
     "markdown-link-extractor": "^1.3.1",
-    "puppeteer": "^15.3.0",
+    "puppeteer": "^15.3.1",
     "rcfile": "^1.0.3",
     "remark-parse": "^9.0.0",
-    "uglify-js": "^3.16.1",
+    "uglify-js": "^3.16.2",
     "unified": "^9.2.2"
   },
   "devDependencies": {
