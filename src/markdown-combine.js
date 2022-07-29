@@ -13,6 +13,9 @@ const combineMarkdowns = ({ contents, pathToStatic, mainMdFilename }) => async l
         const fileExist = await fsExtra.exists(filename)
 
         if (fileExist) {
+          // check if it's a directory, and add README.md if missing
+          const stats = await fs.stat(filename)
+          if (stats.isDirectory()) filename = path.join(filename, 'README.md')
           const content = await fs.readFile(filename, { encoding: 'utf8' })
           return { content, name: filename }
         }
