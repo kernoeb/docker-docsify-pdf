@@ -41,9 +41,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
       function randomString (length) {
         let text = ''
         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-
-        for (let i = 0; i < length; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)) }
-
+        for (let i = 0; i < length; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
         return text
       }
 
@@ -74,7 +72,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
       }
 
       const processUnSafeInternalLinks = unsafeInternalLinks => {
-        _.chain(unsafeInternalLinks)
+        _.chain(unsafeInternalLinks) // eslint-disable-line
           .groupBy('id')
           .transform((result, value, key) => {
             result[key] = value.map(({ node }) => node)
@@ -84,9 +82,10 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
       }
 
       const extractInternalLinks = () => {
+        const selectors = `[href*="#/${pathToStatic}/${mainMdFilenameWithoutExt}?id="]`
         const allInternalLinks = [
           ...document.querySelectorAll(
-            `[href*="#/${pathToStatic}/${mainMdFilenameWithoutExt}?id="]`
+            selectors
           )
         ].map(node => {
           const [, id] = node.href.split('id=')
@@ -104,6 +103,9 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
 
       const processAnchors = () => {
         const [safeInternalLinks, unsafeInternalLinks] = extractInternalLinks()
+
+        console.log('safeInternalLinks', safeInternalLinks)
+        console.log('unsafeInternalLinks', unsafeInternalLinks)
 
         processSafeInternalLinks(safeInternalLinks)
         processUnSafeInternalLinks(unsafeInternalLinks)

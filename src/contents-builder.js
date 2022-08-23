@@ -26,7 +26,7 @@ const createRoadMap = ({ contents }) => async () => {
       .map(link => path.resolve(dir, link))
   )
 
-  return await flatten(contentsArray)
+  return flatten(contentsArray)
 }
 
 module.exports = config => ({

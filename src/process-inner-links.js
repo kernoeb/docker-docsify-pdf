@@ -29,7 +29,10 @@ const cleanText = (string) => {
 module.exports = ({ content, name }, _, arr) => {
   let newContent = content
   const b = markdownLinkExtractor(content)
-    .filter(link => path.parse(link).ext === '.md')
+    .filter(link => {
+      const ext = path.parse(link).ext
+      return ext === '' || ext === '.md'
+    })
     .map(link => ({ file: arr.find(({ name }) => name.includes(link)), link }))
     .filter(({ file }) => file)
     .map(({ file: { content }, link }) => ({
@@ -55,7 +58,9 @@ module.exports = ({ content, name }, _, arr) => {
       tag: `#${tagWord}`
     }))
 
-  b.forEach(({ tag, link }) => (newContent = newContent.replace(link, tag)))
+  b.forEach(({ tag, link }) => {
+    newContent = newContent.replace(new RegExp('\\[(.*)\\]\\(' + link + '\\)'), `[$1](${tag})`)
+  })
 
   return { content: newContent, name }
 }

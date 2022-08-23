@@ -4,7 +4,9 @@
   "description": "A magical pdf generator for docsify projects.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "dev": "DEBUG_HEADLESS=true nodemon --watch src/ index",
+    "test": "node index"
   },
   "engines": {
     "node": "v16"
@@ -28,6 +30,12 @@
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0"
+    "eslint-plugin-promise": "^5.2.0",
+    "nodemon": "^2.0.19"
+  },
+  "standard": {
+    "ignore": [
+      "resources/"
+    ]
   }
 }
