@@ -4,6 +4,16 @@
 
 This project is based on [meff34/docsify-to-pdf-converter](https://github.com/meff34/docsify-to-pdf-converter/) repository.
 
+## Screenshots
+
+![Screenshot 1](img/capture1.png)
+
+![Screenshot 2](img/capture2.png)
+
+![img.png](img/capture3.png)
+
+## Why ?
+
 A lot of fixes and improvements have been made :
 
 - Fix : 
@@ -28,7 +38,7 @@ A lot of fixes and improvements have been made :
   - Remove useless stuff
 
 
-# Usage
+## Usage
 
 First, create a documentation in a `docs` directory (you can follow the repository example).  
 You need a `_sidebar.md`*.
@@ -73,11 +83,3 @@ echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo 
 echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
 ```
 cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
-
-# Screenshots
-
-![Screenshot 1](img/capture1.png)
-
-![Screenshot 2](img/capture2.png)
-
-![img.png](img/capture3.png)
