@@ -32,11 +32,7 @@ You need a `_sidebar.md`[^1].
 
 **Pull the image** and create output directory :
 ```bash
-# To build locally
-# docker build -t docsify-pdf-generator .
 docker pull ghcr.io/kernoeb/docker-docsify-pdf:latest
-
-# To give the good permissions (no root!)
 mkdir -p $(pwd)/pdf
 ```
 
@@ -52,7 +48,15 @@ docker run --rm -it \
   ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
-You can add custom js files (plugins) : `-v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro`
+And voilà ! :tada:
+
+---
+
+You can add custom js files _(plugins)_ : 
+
+```bash
+-v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro
+```
 
 > All the **resources** can be **replaced** (images, css, js, ...) as well   
 > It can be useful if you want to change the **CSS theme**
@@ -91,7 +95,5 @@ echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo 
 echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
 ```
 cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
-
----
 
 [^1]: To change `_sidebar.md` location _(e.g for multi-language support)_, add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
