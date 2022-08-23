@@ -4,13 +4,15 @@
 
 This project is based on [meff34/docsify-to-pdf-converter](https://github.com/meff34/docsify-to-pdf-converter/) repository.
 
+## Features
+
 - Custom **icons**
 - **Codeblocks**
 - **Table of contents** (auto-generated)
 - **Multilingual** support (multiple sidebars)
 - PDF **cover** page
 
-> All improvements, fixes, differences are [here](#differences-from-original-repository)
+> All improvements, fixes, differences from original repository are [here](#differences-from-original-repository).
 
 
 ## Screenshots
