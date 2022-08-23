@@ -2,7 +2,9 @@
 
 <!-- HTML work -->
 
-This is a SVG. HTML work !
+This is an **SVG**. 
+
+**HTML** work !
 
 <svg width="296" height="296" viewBox="0 0 296 296"
 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:

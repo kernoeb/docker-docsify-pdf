@@ -80,4 +80,4 @@ cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-s
 
 ![Screenshot 2](img/capture2.png)
 
-![Screenshot 3](img/capture3.png)
+![img.png](img/capture3.png)
