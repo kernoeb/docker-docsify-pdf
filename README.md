@@ -1,8 +1,17 @@
-# Docker Docsify PDF generator
+# Docker Docsify PDF
 
 ![Workflow](https://github.com/kernoeb/docker-docsify-pdf/actions/workflows/docker-publish.yml/badge.svg)
 
 This project is based on [meff34/docsify-to-pdf-converter](https://github.com/meff34/docsify-to-pdf-converter/) repository.
+
+- Custom **icons**
+- **Codeblocks**
+- **Table of contents** (auto-generated)
+- **Multilingual** support (multiple sidebars)
+- PDF **cover** page
+
+> All improvements, fixes, differences are [here](#differences-from-original-repository)
+
 
 ## Screenshots
 
@@ -11,32 +20,6 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 ![Screenshot 2](img/capture2.png)
 
 ![img.png](img/capture3.png)
-
-## Why ?
-
-A lot of fixes and improvements have been made :
-
-- Fix : 
-  - Slugify / internal **URL** (some URLs were not properly encoded)
-  - `localhost` links are now disabled
-  - **Codeblocks** (some code blocks were sliced)
-  - Better margins in the final PDF
-  - Page breaks between sections
-  - If an image was used multiple times in the same section, it was not working
-- Security/performance : 
-  - Update dependencies (Puppeteer, Docsify, ...)
-- Feats :
-  - **Table of content** (based on sidebar)
-  - Custom **cover** PDF page
-  - **Docker** way to generate PDF
-  - Highlight code blocks (with PrismJS)
-  - **Multilingual** support
-  - Font Awesome icons support, example : `{{fa cog}}`
-- Chore : 
-  - Migration to [pnpm](https://pnpm.io/) (no more npm)
-  - Clean code with standard ESLint
-  - Remove useless stuff
-
 
 ## Usage
 
@@ -83,3 +66,26 @@ echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo 
 echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
 ```
 cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
+
+## Differences from original repository
+
+- Fix :
+  - Slugify / internal **URL** (some URLs were not properly encoded)
+  - `localhost` links are now disabled
+  - **Codeblocks** (some code blocks were sliced)
+  - Better margins in the final PDF
+  - Page breaks between sections
+  - If an image was used multiple times in the same section, it was not working
+- Security/performance :
+  - Update dependencies (Puppeteer, Docsify, ...)
+- Feats :
+  - **Table of content** (based on sidebar)
+  - Custom **cover** PDF page
+  - **Docker** way to generate PDF
+  - Highlight code blocks (with PrismJS)
+  - **Multilingual** support
+  - Font Awesome icons support, example : `{{fa cog}}`
+- Chore :
+  - Migration to [pnpm](https://pnpm.io/) (no more npm)
+  - Clean code with standard ESLint
+  - Remove useless stuff
