@@ -25,10 +25,8 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 
 ## Usage
 
-First, create a documentation in a `docs` directory (you can follow the repository example).  
+First, create a documentation in a `docs` directory (like the repository example).  
 You need a `_sidebar.md`[^1].
-
-* Tip : if you cloned the project, you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
 
 **Pull the image** and create output directory :
 ```bash
@@ -52,7 +50,9 @@ And voilà ! :tada:
 
 ---
 
-You can add custom js files _(plugins)_ : 
+You can use [zx](https://github.com/google/zx) to generate the PDF in one command : `zx README.md`.
+
+You can also add custom js files _(plugins)_ : 
 
 ```bash
 -v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro
