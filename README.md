@@ -26,7 +26,7 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 ## Usage
 
 First, create a documentation in a `docs` directory (you can follow the repository example).  
-You need a `_sidebar.md`*.
+You need a `_sidebar.md`[^1].
 
 * Tip : if you cloned the project, you can run `zx README.md` to generate the PDF directly from this Markdown if you have [zx](https://github.com/google/zx) installed.
 
@@ -40,7 +40,7 @@ docker pull ghcr.io/kernoeb/docker-docsify-pdf:latest
 mkdir -p $(pwd)/pdf
 ```
 
-**Run the container** (volumes are important) :
+**Run the container** (volumes are mandatory) :
 ```bash
 docker run --rm -it \
   --cap-add=SYS_ADMIN \
@@ -52,22 +52,12 @@ docker run --rm -it \
   ghcr.io/kernoeb/docker-docsify-pdf:latest
 ```
 
-> You can add custom js files (plugins) : `-v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro`
+You can add custom js files (plugins) : `-v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro`
 
-> *To change `_sidebar.md` location (for example with multi-language support) :  
-> Add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
+> All the **resources** can be **replaced** (images, css, js, ...) as well   
+> It can be useful if you want to change the **CSS theme**
 
-> The PDF cover is optional (just don't add the mapping).  
-> You can also customize the PDF css by adding a volume mapped to the `resources` directory.
-
-
-If you have this error : `System limit for number of file watchers reached` or `Error: EMFILE: too many open files` :
-
-```
-echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
-echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
-```
-cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
+The PDF **cover** is **optional** : just remove the mapping on the command.
 
 ## Differences from original repository
 
@@ -91,3 +81,17 @@ cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-s
   - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
   - Remove useless stuff
+
+## Troubleshooting
+
+If you have this error : `System limit for number of file watchers reached` or `Error: EMFILE: too many open files` :
+
+```
+echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
+echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
+```
+cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
+
+---
+
+[^1]: To change `_sidebar.md` location _(e.g for multi-language support)_, add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
