@@ -11,8 +11,9 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 - **Table of contents** (auto-generated)
 - **Multilingual** support (multiple sidebars)
 - PDF **cover** page
+- **PlantUML** (.puml) diagrams
 
-> All improvements, fixes, differences from original repository are [here](#differences-from-original-repository).
+> All improvements and fixes from original repository are [here](#differences-from-original-repository).
 
 
 ## Screenshots
@@ -72,8 +73,9 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
   - Better margins in the final PDF
   - Page breaks between sections
   - If an image was used multiple times in the same section, it was not working
-- Security/performance :
+- Security / performance :
   - Update dependencies (Puppeteer, Docsify, ...)
+  - Docker container is running with **current user** rights (optional)
 - Feats :
   - **Table of content** (based on sidebar)
   - Custom **cover** PDF page
@@ -81,6 +83,7 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
   - Highlight code blocks (with PrismJS)
   - **Multilingual** support
   - Font Awesome icons support, example : `{{fa cog}}`
+  - PlantUML diagrams support (see the example in docs directory)
 - Chore :
   - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
