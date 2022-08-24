@@ -23,7 +23,11 @@ const createRoadMap = ({ contents }) => async () => {
   const contentsArray = sidebarFileContents.map(({ file, dir }) =>
     markdownLinkExtractor(file)
       .filter(link => !isUrl(link))
-      .map(link => path.resolve(dir, link))
+      .map(link => {
+        link = link.trim()
+        if (link.startsWith('/')) link = link.slice(1)
+        return path.resolve(dir, link)
+      })
   )
 
   return flatten(contentsArray)

@@ -4,6 +4,10 @@ This is an **SVG**.
 
 **HTML** works too !
 
+A [link with a slash](/usecase/example.md)
+
+[README.md](/README.md)
+
 <svg width="296" height="296" viewBox="0 0 296 296"
 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:
 ev="http://www.w3.org/2001/xml-events">
