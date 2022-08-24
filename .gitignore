@@ -5,3 +5,4 @@ pdf/*.pdf
 static/
 .static/
 /resources/js/all.js
+.DS_Store

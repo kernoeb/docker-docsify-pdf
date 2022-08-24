@@ -2,7 +2,7 @@ const fs = require('fs').promises
 const fsExtra = require('fs-extra')
 const path = require('path')
 const logger = require('./logger.js')
-const processImagesPaths = require('./process-images-paths.js')
+const processFilesPath = require('./process-files-paths.js')
 const processInnerLinks = require('./process-inner-links.js')
 const { EOL: endOfLine } = require('os')
 
@@ -49,7 +49,7 @@ const combineMarkdowns = ({ contents, pathToStatic, mainMdFilename }) => async l
     try {
       const content = files
         .map(processInnerLinks)
-        .map(processImagesPaths({ pathToStatic }))
+        .map(processFilesPath({ pathToStatic }))
         .join('\n\n\n\n<div style="page-break-after:always;"></div>\n\n\n\n') // Page breaks
       await fs.writeFile(resultFilePath, content)
     } catch (e) {
