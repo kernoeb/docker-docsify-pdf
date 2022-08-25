@@ -20,8 +20,11 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
   let includeMatches = []
   const includeRegex = /\[\[!include\s+(.*)]]/gm
   const tmpMatches = markdown.match(includeRegex)
-  if (tmpMatches) {
-    includeMatches = tmpMatches.map(match => match.replace('[[!include ', '').replace(']]', '').trim()).filter(Boolean)
+  if (tmpMatches?.length) {
+    includeMatches = tmpMatches
+      .map(v => v.trim()).filter(Boolean)
+      .map(match => match.replace('[[!include ', '').replace(']]', '').trim())
+      .filter(Boolean)
   }
 
   markdownLinkExtractor(content).concat(includeMatches)
