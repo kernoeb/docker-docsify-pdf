@@ -16,7 +16,15 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
   const dir = path.dirname(name)
   const dirWithStatic = path.resolve(process.cwd(), pathToStatic)
 
-  markdownLinkExtractor(content)
+  // match all [[!include .*]]
+  let includeMatches = []
+  const includeRegex = /\[\[!include\s+(.*)]]/gm
+  const tmpMatches = markdown.match(includeRegex)
+  if (tmpMatches) {
+    includeMatches = tmpMatches.map(match => match.replace('[[!include ', '').replace(']]', '').trim()).filter(Boolean)
+  }
+
+  markdownLinkExtractor(content).concat(includeMatches)
     .filter(link => !isUrl(link))
     .filter(isGoodFile) // check if it's an image, a puml, etc.
     .map(link => ({ origin: link, processed: path.resolve(dir, link) }))
