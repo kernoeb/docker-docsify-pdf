@@ -9,7 +9,7 @@
     "test": "node index"
   },
   "engines": {
-    "node": "v16"
+    "node": "v18"
   },
   "dependencies": {
     "colors": "^1.4.0",
