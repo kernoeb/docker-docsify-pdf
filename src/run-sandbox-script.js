@@ -59,10 +59,10 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
           anchorTarget.id = safeId
         } catch (e) {
           errors.push({
-            message: `Could not set safe tag to href: ${unsafeTag}`,
-            processingAnchor: decodeURIComponent(unsafeTag),
-            error: e.message,
-            stack: e.stack
+            message: `Could not set safe tag to href: ${(unsafeTag || '').slice(0, 100)}...`,
+            processingAnchor: decodeURIComponent((unsafeTag || '').slice(0, 100)) + '...',
+            error: (e.message || '').slice(0, 100) + '...',
+            stack: (e.stack || '').slice(0, 100) + '...'
           })
         }
       }
