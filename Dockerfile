@@ -1,4 +1,4 @@
-FROM node:16.17.0-alpine3.16
+FROM node:16.18.0-alpine3.16
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 
