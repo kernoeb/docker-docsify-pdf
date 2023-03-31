@@ -9,7 +9,7 @@
     "test": "node index"
   },
   "engines": {
-    "node": "v18"
+    "node": "18"
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -19,20 +19,20 @@
     "is-url": "^1.2.4",
     "lodash": "^4.17.21",
     "markdown-link-extractor": "^1.3.1",
-    "puppeteer": "^19.0.0",
+    "puppeteer": "^19.8.2",
     "rcfile": "^1.0.3",
     "remark-parse": "^9.0.0",
-    "uglify-js": "^3.17.3",
+    "uglify-js": "^3.17.4",
     "unified": "^9.2.2"
   },
   "devDependencies": {
-    "eslint": "^8.25.0",
+    "eslint": "^8.37.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.0",
-    "nodemon": "^2.0.20"
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^2.0.22"
   },
   "standard": {
     "ignore": [
