@@ -5,15 +5,17 @@ const logger = require('./logger.js')
 const runSandboxScript = require('./run-sandbox-script.js')
 const merge = require('easy-pdf-merge')
 
-const HEADLESS = process.env.DEBUG_HEADLESS === 'true'
+const SHOW_BROWSER = process.env.SHOW_BROWSER === 'true'
+console.log("Show browser", SHOW_BROWSER)
 
 const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
   const browser = await puppeteer.launch({
-    headless: !HEADLESS,
-    devtools: HEADLESS,
+    headless: SHOW_BROWSER ? false : 'new',
+    devtools: SHOW_BROWSER,
     args: ['--disable-dev-shm-usage'], // Needed for Docker
     defaultViewport: { width: 1200, height: 1000 }
   })
+
   try {
     const mainMdFilenameWithoutExt = path.parse(mainMdFilename).name
     const docsifyUrl = `http://localhost:${docsifyRendererPort}/#/${pathToStatic}/${mainMdFilenameWithoutExt}`
@@ -30,7 +32,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
 
     logger.info('Version : ' + await page.browser().version())
 
-    if (HEADLESS) {
+    if (SHOW_BROWSER) {
       // Pause 10 minutes
       await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000))
     }
