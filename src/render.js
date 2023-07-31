@@ -6,11 +6,11 @@ const runSandboxScript = require('./run-sandbox-script.js')
 const merge = require('easy-pdf-merge')
 
 const SHOW_BROWSER = process.env.SHOW_BROWSER === 'true'
-console.log("Show browser", SHOW_BROWSER)
+console.log('Show browser', SHOW_BROWSER)
 
 const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
   const browser = await puppeteer.launch({
-    headless: SHOW_BROWSER ? false : 'new',
+    headless: !SHOW_BROWSER,
     devtools: SHOW_BROWSER,
     args: ['--disable-dev-shm-usage'], // Needed for Docker
     defaultViewport: { width: 1200, height: 1000 }
