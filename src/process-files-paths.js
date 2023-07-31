@@ -1,6 +1,9 @@
 const path = require('path')
 const markdownLinkExtractor = require('markdown-link-extractor')
 const isUrl = require('is-url')
+const jsdom = require('jsdom')
+const unified = require('unified')
+const parser = require('remark-parse')
 
 const isGoodFile = filePath => {
   let extName = path.parse(filePath).ext
@@ -27,7 +30,18 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
       .filter(Boolean)
   }
 
-  markdownLinkExtractor(content).concat(includeMatches)
+  let images = []
+  try {
+    const dom = new jsdom.JSDOM(content)
+    const document = dom.window.document
+    images = [...document.querySelectorAll('img')].map(img => img.getAttribute('src')).filter(Boolean)
+  } catch (err) {
+    console.log(err)
+  }
+
+  const isImage = v => v && (v.type === 'image' || (v.type === 'html' && v.value.includes('<img')))
+
+  markdownLinkExtractor(content).concat(includeMatches).concat(images)
     .filter(link => !isUrl(link))
     .filter(isGoodFile) // check if it's an image, a puml, etc.
     .map(link => ({ origin: link, processed: path.resolve(dir, link) }))
@@ -37,7 +51,45 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
       return acc
     }, [])
     .forEach(({ origin, processed }) => {
-      markdown = markdown.replaceAll(origin, processed)
+      if (origin.trim().endsWith('.puml')) {
+        markdown = markdown.replaceAll(origin, processed)
+        return
+      }
+
+      let lineNumber = 1
+      for (const line of markdown.split('\n')) {
+        if (line.includes(origin)) {
+          let filtered = []
+          const a = unified().use(parser).parse(markdown)?.children || []
+          filtered = a.filter(isImage)
+          const b = a.map(v => v.children).flat()
+          filtered = filtered.concat(b.filter(isImage)).flat().filter(Boolean)
+
+          const allPositions = filtered.map(v => ({
+            start: v.position.start.offset,
+            end: v.position.end.offset,
+            lineStart: v.position.start.line,
+            lineEnd: v.position.end.line
+          }))
+
+          markdown = markdown.replaceAll(origin, (match, offset) => {
+            const currentLineByOffset = markdown.substring(0, offset).split('\n').length
+            if (currentLineByOffset !== lineNumber) return match
+
+            const start = offset
+            const end = start + match.length
+
+            const isBetweenPosition = allPositions.some(position => {
+              if (position.lineStart === position.lineEnd) return start >= position.start && end <= position.end && lineNumber === position.lineStart
+              else return lineNumber >= position.lineStart && lineNumber <= position.lineEnd
+            })
+
+            if (isBetweenPosition) return processed
+            return match
+          })
+        }
+        lineNumber++
+      }
     })
   return markdown
 }
