@@ -1,6 +1,7 @@
 FROM node:18.17.0-alpine3.18
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
+RUN echo @edge https://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk add --no-cache icu-data-full wqy-zenhei@edge
 
 # Pnpm is used to install packages
 RUN npm install --location=global pnpm
