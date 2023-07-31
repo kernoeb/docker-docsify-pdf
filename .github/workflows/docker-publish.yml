@@ -8,8 +8,7 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  # Use docker.io for Docker Hub if empty
+env: # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
@@ -25,6 +24,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -34,6 +39,31 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test
+        run: |
+          docker run --rm -it \
+          --cap-add=SYS_ADMIN \
+          --user "$(id -u):$(id -g)" \
+          -v "$(pwd)/docs:/home/node/docs:ro" \
+          -v "$(pwd)/pdf:/home/node/pdf:rw" \
+          -v "$(pwd)/resources/covers/cover.pdf:/home/node/resources/cover.pdf:ro" \
+          -e "PDF_OUTPUT_NAME=TEST-DOCUMENTATION.pdf" \
+          ${{ env.TEST_TAG }}
+          
+          sudo apt-get install -y poppler-utils
+          NB_PAGES=$(pdfinfo pdf/TEST-DOCUMENTATION.pdf | awk '/^Pages:/ {print $2}')
+          if [ "$NB_PAGES" != "12" ]; then
+            echo "PDF has $NB_PAGES pages instead of 12"
+            exit 1
+          fi
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -49,6 +79,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

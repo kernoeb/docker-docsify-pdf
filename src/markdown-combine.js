@@ -60,6 +60,7 @@ const combineMarkdowns = ({ contents, pathToStatic, mainMdFilename }) => async l
     return resultFilePath
   } catch (err) {
     logger.err('combineMarkdowns', err)
+    console.error(err)
     throw err
   }
 }

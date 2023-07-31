@@ -42,6 +42,10 @@ module.exports = ({ content, name }, _, arr) => {
     }))
     .map(({ ast, link }) => {
       const [a] = ast.children.filter(({ type }) => type === 'heading')
+      if (!a) {
+        console.error('no heading (non blocking error)', link)
+        return { link, unsafeTag: '' }
+      }
 
       const array = []
       recursiveGetValueInChildren(a.children, array)
