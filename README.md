@@ -12,6 +12,7 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 - **Multilingual** support (multiple sidebars)
 - PDF **cover** page
 - **PlantUML** (.puml) diagrams
+- **SVG** support
 
 > All improvements and fixes from original repository are [here](#differences-from-original-repository).
 
@@ -84,6 +85,7 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
   - **Multilingual** support
   - Font Awesome icons support, example : `{{fa cog}}`
   - PlantUML diagrams support (see the example in docs directory)
+  - SVG support
 - Chore :
   - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
