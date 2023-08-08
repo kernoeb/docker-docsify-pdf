@@ -28,11 +28,13 @@ const cleanText = (string) => {
 
 module.exports = ({ content, name }, _, arr) => {
   let newContent = content
-  const b = markdownLinkExtractor(content)
-    .filter(link => {
+  const b = markdownLinkExtractor(content, true)
+    .filter(({ href: link, title }) => {
+      if (title && title.startsWith(':include')) return false
       const ext = path.parse(link).ext
       return ext === '' || ext === '.md'
     })
+    .map(v => v.href)
     .map(link => ({ file: arr.find(({ name }) => name.includes(link)), link }))
     .filter(({ file }) => file)
     .map(({ file: { content }, link }) => ({

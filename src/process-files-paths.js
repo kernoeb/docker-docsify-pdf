@@ -5,10 +5,13 @@ const jsdom = require('jsdom')
 const unified = require('unified')
 const parser = require('remark-parse')
 
-const isGoodFile = filePath => {
+const isGoodFile = (filePath, title) => {
+  if (title) return true
+
   let extName = path.parse(filePath).ext
   if (!extName) return false
   extName = extName.toLowerCase()
+
   return extName === '.jpg' || extName === '.png' || extName === '.gif' || extName === '.jpeg' ||
       extName === '.svg' || extName === '.webp' || extName === '.bmp' || extName === '.tiff' || extName === '.ico' ||
       extName === '.puml'
@@ -41,16 +44,16 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
 
   const isImage = v => v && (v.type === 'image' || (v.type === 'html' && v.value.includes('<img')))
 
-  markdownLinkExtractor(content).concat(includeMatches).concat(images)
-    .filter(link => !isUrl(link))
-    .filter(isGoodFile) // check if it's an image, a puml, etc.
-    .map(link => ({ origin: link, processed: path.resolve(dir, link) }))
-    .map(({ origin, processed }) => ({ origin, processed: path.relative(dirWithStatic, processed) }))
+  markdownLinkExtractor(content, true).concat(includeMatches.map(href => ({ href }))).concat(images.map(href => ({ href })))
+    .filter(({ href }) => !isUrl(href))
+    .filter(({ href, title }) => isGoodFile(href, title)) // check if it's an image, a puml, etc.
+    .map(item => ({ origin: item.href, processed: path.resolve(dir, item.href), item }))
+    .map(({ origin, processed, item }) => ({ origin, processed: path.relative(dirWithStatic, processed), item }))
     .reduce((acc, curr) => {
       if (!acc.some(item => item.origin === curr.origin)) acc.push(curr)
       return acc
     }, [])
-    .forEach(({ origin, processed }) => {
+    .forEach(({ origin, processed, item }) => {
       if (origin.trim().endsWith('.puml')) {
         markdown = markdown.replaceAll(origin, processed)
         return
@@ -84,12 +87,13 @@ module.exports = ({ pathToStatic }) => ({ content, name }) => {
               else return lineNumber >= position.lineStart && lineNumber <= position.lineEnd
             })
 
-            if (isBetweenPosition) return processed
-            return match
+            if (item.title && item.title.startsWith(':include')) return processed
+            return isBetweenPosition ? processed : match
           })
         }
         lineNumber++
       }
     })
+
   return markdown
 }

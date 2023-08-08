@@ -5,3 +5,4 @@
     * [1.3 - SVG](usecase/svg.md)
 * [2 - Tutorials](/tutorials) <!-- it's a README -->
     * [2.1 - Test](/tutorials/documentation/test.md)
+* [3 - Weird stuff](usecase/embed.md)
