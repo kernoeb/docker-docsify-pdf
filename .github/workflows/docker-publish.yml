@@ -64,6 +64,7 @@ jobs:
           -e "PDF_OUTPUT_NAME=TEST-DOCUMENTATION.pdf" \
           ${{ env.TEST_TAG }}
           
+          sudo apt-get update -y || true
           sudo apt-get install -y poppler-utils
           NB_PAGES=$(pdfinfo pdf/TEST-DOCUMENTATION.pdf | awk '/^Pages:/ {print $2}')
           if [ "$NB_PAGES" != "13" ]; then
