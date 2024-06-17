@@ -1,6 +1,6 @@
 {
   "name": "docsify-pdf-converter",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A magical pdf generator for docsify projects.",
   "main": "index.js",
   "scripts": {
