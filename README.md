@@ -87,7 +87,6 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
   - PlantUML diagrams support (see the example in docs directory)
   - SVG support
 - Chore :
-  - Migration to [pnpm](https://pnpm.io/) (no more npm)
   - Clean code with standard ESLint
   - Remove useless stuff
 

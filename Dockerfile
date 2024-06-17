@@ -1,14 +1,12 @@
-FROM node:18.17.0-alpine3.18
+FROM node:20.14.0-alpine3.20
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 RUN echo @edge https://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk add --no-cache icu-data-full wqy-zenhei@edge
-
-# Pnpm is used to install packages
-RUN npm install --location=global pnpm
+RUN apk add font-noto-emoji
 
 RUN USER=node && \
     GROUP=node && \
-    curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
+    curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.6.0/fixuid-0.6.0-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
     chown root:root /usr/local/bin/fixuid && \
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \
@@ -25,11 +23,11 @@ ENV NODE_ENV production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-COPY --chown=node:node package.json pnpm-lock.yaml ./
+COPY --chown=node:node package.json package-lock.json ./
 
 RUN chown -R node:node /home/node
 
-RUN pnpm install --frozen-lockfile --prod
+RUN npm ci --omit=dev
 
 COPY --chown=node:node index.html index.js index.html ./
 COPY --chown=node:node resources/js/ ./resources/js/
