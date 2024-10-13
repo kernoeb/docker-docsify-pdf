@@ -92,6 +92,12 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
 
 ## Troubleshooting
 
+The order (**alphabetical**) of JavaScript files is important for some libraries like [Docsify-Latex](https://scruel.github.io/docsify-latex/#/). 
+
+> From Docsify-Latex documentation : "You should put docsify-latex plugin script below docsify and display engine scripts, because plugin script depends on them."
+
+---
+
 If you have this error : `System limit for number of file watchers reached` or `Error: EMFILE: too many open files` :
 
 ```
@@ -99,5 +105,7 @@ echo fs.inotify.max_user_watches=1048576 | sudo tee -a /etc/sysctl.conf && sudo 
 echo fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system
 ```
 cf. [StackOverflow](https://stackoverflow.com/questions/53930305/nodemon-error-system-limit-for-number-of-file-watchers-reached)
+
+---
 
 [^1]: To change `_sidebar.md` location _(e.g for multi-language support)_, add `-v $(pwd)/docs/de/_sidebar.md:/home/node/docs/_sidebar.md:ro` to the command
