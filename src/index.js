@@ -13,6 +13,7 @@ const jsFiles = fs.readdirSync(path.resolve(__dirname, '../resources/js'))
   .filter(file => !['all.js', 'docsify.js'].includes(file))
   .map(file => path.resolve(__dirname, '../resources/js/' + file))
   .filter(file => file.endsWith('.js'))
+  .sort((a, b) => a.localeCompare(b))
 
 logger.info(jsFiles)
 

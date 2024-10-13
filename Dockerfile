@@ -1,4 +1,4 @@
-FROM node:20.14.0-alpine3.20
+FROM node:20.17.0-alpine3.20
 
 RUN apk add --no-cache curl bash bash-completion chromium nss freetype harfbuzz ca-certificates openjdk11
 RUN echo @edge https://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk add --no-cache icu-data-full wqy-zenhei@edge
