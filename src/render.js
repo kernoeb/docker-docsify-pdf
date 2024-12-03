@@ -12,7 +12,13 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
   const browser = await puppeteer.launch({
     headless: !SHOW_BROWSER,
     devtools: SHOW_BROWSER,
-    args: ['--disable-dev-shm-usage'], // Needed for Docker
+    args: [
+      '--disable-dev-shm-usage',
+      '--disable-setuid-sandbox',
+      '--disable-gpu',
+      process.env.NO_SANDBOX ? '--no-sandbox' : '',
+      ...(process.env.CHROMIUM_ARGS || '').split(' ').filter(Boolean)
+    ].filter(Boolean),
     defaultViewport: { width: 1200, height: 1000 }
   })
 
