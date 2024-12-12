@@ -28,7 +28,12 @@ const combineMarkdowns = ({ contents, pathToStatic, mainMdFilename }) => async l
           return { content, name: filename }
         }
 
-        throw new Error(`file ${filename} is not exist, but listed in ${contents}`)
+        if (process.env.IGNORE_MISSING_FILES === 'true') {
+          logger.warn(`file ${filename} does not exist, but listed in ${contents}`)
+          return { content: '', name: filename }
+        } else {
+          throw new Error(`file ${filename} does not exist, but listed in ${contents}`)
+        }
       })
     )
 
