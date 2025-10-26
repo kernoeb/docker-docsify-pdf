@@ -55,7 +55,7 @@ async function renderPdf({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       footerTemplate: '<p style="margin: auto;text-align: center;font-size: 8px;"><span class="pageNumber"></span>&nbsp;/&nbsp;<span class="totalPages"></span></p>',
       displayHeaderFooter: true,
       path: path.resolve(pathToPublic),
-      margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 },
+      margin: { left: 29.795, right: 29.795, top: 29.795, bottom: 70 }, // 1px - 8px (padding)
       timeout: 560000, // 5 minutes
     }
 

@@ -26,7 +26,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
           left: 0;
         `
 
-        document.querySelector('.markdown-section').style = 'max-width: 100%; padding: 0;'
+        document.querySelector('.markdown-section').style = 'max-width: 100%; padding: 8px;'
 
         document.querySelectorAll('pre').forEach((v) => {
           v.style['white-space'] = 'pre-wrap'
@@ -115,7 +115,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
             if (link.href.startsWith('http://localhost') && !link.href.includes('#')) {
               link.removeAttribute('href')
             }
-          } catch (err) {}
+          } catch (err) { }
         })
       }
 
