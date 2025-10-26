@@ -21,7 +21,3 @@ uhhhh up.svg (up.svg not replaced!) img.png 🐱
 # Specific Section
 
 Hello
-
-# Another Section
-
-World

@@ -45,22 +45,39 @@ module.exports = ({ content, name }, _, arr) => {
           anchor = params.get('id')
         }
       }
-      const resolvedPath = path.resolve(path.dirname(name), linkPath)
+
       const docsPath = arr.find(({ name }) => name.endsWith('docs/README.md'))
       const docsDir = docsPath ? path.dirname(docsPath.name) : ''
 
-      return {
-        file: arr.find(({ name: fileName }) => {
-          if (fileName === resolvedPath) return true
-          if (fileName === `${resolvedPath}.md`) return true
+      let file
 
-          if (docsDir) {
-            const resolvedFromDocs = path.resolve(docsDir, linkPath)
-            if (fileName === resolvedFromDocs) return true
-            if (fileName === `${resolvedFromDocs}.md`) return true
-          }
+      const findFile = (basePath) => {
+        return arr.find(({ name: fileName }) => {
+          const absoluteFileName = path.resolve(process.cwd(), fileName)
+          if (absoluteFileName === basePath) return true
+          if (absoluteFileName === `${basePath}.md`) return true
+          if (absoluteFileName === path.join(basePath, 'README.md')) return true
           return false
-        }),
+        })
+      }
+
+      if (linkPath.startsWith('/')) {
+        const absolutePath = path.join(docsDir, linkPath)
+        file = findFile(absolutePath)
+      } else {
+        // First, try to resolve the path relative to the current file's directory.
+        const resolvedPath = path.resolve(path.dirname(name), linkPath)
+        file = findFile(resolvedPath)
+
+        // If the file is not found, try to resolve it relative to the docs root directory as a fallback.
+        if (!file && docsDir) {
+          const resolvedFromDocs = path.resolve(docsDir, linkPath)
+          file = findFile(resolvedFromDocs)
+        }
+      }
+
+      return {
+        file,
         link: href,
         anchor
       }
@@ -91,7 +108,7 @@ module.exports = ({ content, name }, _, arr) => {
       }
 
       if (!headingNode) {
-        console.error('no heading (non blocking error)', link)
+        console.warn(`no heading found for ${link}. The link will point to the top of the page.`)
         return { link, unsafeTag: '' }
       }
 
