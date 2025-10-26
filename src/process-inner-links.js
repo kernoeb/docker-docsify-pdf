@@ -107,7 +107,7 @@ module.exports = ({ content, name }, _, arr) => {
       }
 
       if (!headingNode) {
-        console.warn(`no heading found for ${link}. The link will point to the top of the page.`)
+        console.warn(`no heading found for ${link}.`)
         return { link, unsafeTag: '' }
       }
 
