@@ -3,9 +3,12 @@
   "version": "4.2.0",
   "description": "A magical pdf generator for docsify projects.",
   "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "dev": "SHOW_BROWSER=true nodemon --watch src/ index",
-    "lint": "eslint src --fix",
+    "lint": "eslint --fix .",
     "test": "node index",
     "test-docker": "bash ./scripts/test-docker.sh"
   },
@@ -13,29 +16,22 @@
     "colors": "1.4.0",
     "docsify-cli": "4.4.4",
     "easy-pdf-merge": "0.2.6",
-    "fs-extra": "11.2.0",
+    "fs-extra": "11.3.2",
     "is-url": "1.2.4",
     "jsdom": "22.1.0",
     "lodash": "4.17.21",
     "markdown-link-extractor": "1.3.1",
-    "puppeteer": "22.15.0",
+    "puppeteer": "24.26.1",
     "rcfile": "1.0.3",
     "remark-parse": "9.0.0",
     "uglify-js": "3.19.3",
     "unified": "9.2.2"
   },
   "devDependencies": {
-    "@types/node": "20.17.10",
-    "eslint": "8.57.1",
-    "eslint-config-standard": "17.1.0",
-    "eslint-plugin-import": "2.31.0",
-    "eslint-plugin-n": "15.7.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "6.6.0",
-    "nodemon": "3.1.7"
-  },
-  "engines": {
-    "node": "20"
+    "@antfu/eslint-config": "^6.1.0",
+    "@types/node": "22",
+    "eslint": "^9.38.0",
+    "nodemon": "3.1.10"
   },
   "standard": {
     "ignore": [

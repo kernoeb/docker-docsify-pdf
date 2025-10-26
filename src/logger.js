@@ -1,15 +1,15 @@
 require('colors')
 
 class Logger {
-  static success (text) {
+  static success(text) {
     console.log(`\nSUCCESS:\n${text}\n`.green)
   }
 
-  static info (text) {
+  static info(text) {
     console.log(`\nINFO:\n${text}\n`.blue)
   }
 
-  static warn (text, error) {
+  static warn(text, error) {
     console.warn(`\nWARNING:\n${text}\n`.yellow)
 
     if (error) {
@@ -18,7 +18,7 @@ class Logger {
     }
   }
 
-  static err (text, error) {
+  static err(text, error) {
     console.error(`\nERROR:\n${text}\n`.red)
 
     if (error) {

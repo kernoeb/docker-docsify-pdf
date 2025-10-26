@@ -16,7 +16,6 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 
 > All improvements and fixes from original repository are [here](#differences-from-original-repository).
 
-
 ## Screenshots
 
 ![Screenshot 1](img/capture1.png)
@@ -27,7 +26,7 @@ This project is based on [meff34/docsify-to-pdf-converter](https://github.com/me
 
 ## Usage
 
-First, create a documentation in a `docs` directory (like the repository example).  
+First, create a documentation in a `docs` directory (like the repository example).
 You need a `_sidebar.md`[^1].
 
 **Pull the image** and create output directory :
@@ -54,13 +53,13 @@ And voilà ! :tada:
 
 You can use [zx](https://github.com/google/zx) to generate the PDF in one command : `zx README.md`.
 
-You can also add custom js files _(plugins)_ : 
+You can also add custom js files _(plugins)_ :
 
 ```bash
 -v $(pwd)/resources/js/thing.js:/home/node/resources/js/thing.js:ro
 ```
 
-> All the **resources** can be **replaced** (images, css, js, ...) as well   
+> All the **resources** can be **replaced** (images, css, js, ...) as well
 > It can be useful if you want to change the **CSS theme**
 
 The PDF **cover** is **optional** : just remove the mapping on the command.
@@ -92,7 +91,7 @@ The PDF **cover** is **optional** : just remove the mapping on the command.
 
 ## Troubleshooting
 
-The order (**alphabetical**) of JavaScript files is important for some libraries like [Docsify-Latex](https://scruel.github.io/docsify-latex/#/). 
+The order (**alphabetical**) of JavaScript files is important for some libraries like [Docsify-Latex](https://scruel.github.io/docsify-latex/#/).
 
 > From Docsify-Latex documentation : "You should put docsify-latex plugin script below docsify and display engine scripts, because plugin script depends on them."
 

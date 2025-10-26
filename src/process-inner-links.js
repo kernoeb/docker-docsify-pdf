@@ -1,12 +1,12 @@
-const path = require('path')
-const url = require('url')
+const path = require('node:path')
+const url = require('node:url')
 const markdownLinkExtractor = require('markdown-link-extractor')
-const unified = require('unified')
 const parser = require('remark-parse')
+const unified = require('unified')
 const slug = require('./slugify')
 
-const recursiveGetValueInChildren = (children, array) => {
-  children.forEach(child => {
+function recursiveGetValueInChildren(children, array) {
+  children.forEach((child) => {
     if (child.children) {
       recursiveGetValueInChildren(child.children, array)
     } else {
@@ -15,13 +15,13 @@ const recursiveGetValueInChildren = (children, array) => {
   })
 }
 
-const cleanText = (string) => {
+function cleanText(string) {
   const entityMap = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#39;'
+    '\'': '&#39;',
   }
 
   return String(string).replace(/[&<>"']/g, s => entityMap[s])
@@ -79,15 +79,14 @@ module.exports = ({ content, name }, _, arr) => {
       return {
         file,
         link: href,
-        anchor
+        anchor,
       }
     })
     .filter(({ file }) => file)
     .map(({ file: { content }, link, anchor }) => ({
-      ast: unified().use(parser)
-        .parse(content),
+      ast: unified().use(parser).parse(content),
       link,
-      anchor
+      anchor,
     }))
     .map(({ ast, link, anchor }) => {
       let headingNode
@@ -120,16 +119,16 @@ module.exports = ({ content, name }, _, arr) => {
     })
     .map(({ unsafeTag, link }) => ({
       link,
-      tagWord: slug(unsafeTag)
+      tagWord: slug(unsafeTag),
     }))
     .map(({ link, tagWord }) => ({
       link,
-      tag: `#${tagWord}`
+      tag: `#${tagWord}`,
     }))
 
   b.forEach(({ tag, link }) => {
     const escapedLink = link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    newContent = newContent.replace(new RegExp('\\[(.*)\\]\\(' + escapedLink + '\\)'), `[$1](${tag})`)
+    newContent = newContent.replace(new RegExp(`\\[(.*)\\]\\(${escapedLink}\\)`), `[$1](${tag})`)
   })
 
   return { content: newContent, name }

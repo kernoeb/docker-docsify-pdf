@@ -1,10 +1,10 @@
 const re = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g
 
-function lower (string) {
+function lower(string) {
   return string.toLowerCase()
 }
 
-const slug = (str) => {
+function slug(str) {
   if (typeof str !== 'string') return ''
 
   return str

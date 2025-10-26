@@ -1,9 +1,9 @@
 module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
   await page.addScriptTag({
-    url: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js'
+    url: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js',
   })
   await page.addScriptTag({
-    url: './src/slugify.js'
+    url: './src/slugify.js',
   })
   return page.evaluate(
     ({ mainMdFilenameWithoutExt, pathToStatic }) => {
@@ -28,17 +28,17 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
 
         document.querySelector('.markdown-section').style = 'max-width: 100%; padding: 0;'
 
-        document.querySelectorAll('pre').forEach(v => {
+        document.querySelectorAll('pre').forEach((v) => {
           v.style['white-space'] = 'pre-wrap'
         })
-        document.querySelectorAll('code').forEach(v => {
+        document.querySelectorAll('code').forEach((v) => {
           v.style['word-break'] = 'break-word'
         })
       }
 
-      const isSafeTag = (tag) => tag === window.decodeURIComponent(tag)
+      const isSafeTag = tag => tag === window.decodeURIComponent(tag)
 
-      function randomString (length) {
+      function randomString(length) {
         let text = ''
         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
         for (let i = 0; i < length; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
@@ -48,7 +48,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
       const setSafeTagToHref = (anchorNodes, unsafeTag) => {
         const safeId = randomString(10)
 
-        anchorNodes.forEach(node => {
+        anchorNodes.forEach((node) => {
           node.href = `#${safeId}`
         })
 
@@ -60,18 +60,18 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
         } catch (e) {
           errors.push({
             message: `Could not set safe tag to href: ${(unsafeTag || '').slice(0, 100)}...`,
-            processingAnchor: decodeURIComponent((unsafeTag || '').slice(0, 100)) + '...',
-            error: (e.message || '').slice(0, 100) + '...',
-            stack: (e.stack || '').slice(0, 100) + '...'
+            processingAnchor: `${decodeURIComponent((unsafeTag || '').slice(0, 100))}...`,
+            error: `${(e.message || '').slice(0, 100)}...`,
+            stack: `${(e.stack || '').slice(0, 100)}...`,
           })
         }
       }
 
-      const processSafeInternalLinks = links => {
+      const processSafeInternalLinks = (links) => {
         links.forEach(({ node, id }) => (node.href = `#${id}`))
       }
 
-      const processUnSafeInternalLinks = unsafeInternalLinks => {
+      const processUnSafeInternalLinks = (unsafeInternalLinks) => {
         _.chain(unsafeInternalLinks) // eslint-disable-line
           .groupBy('id')
           .transform((result, value, key) => {
@@ -85,9 +85,9 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
         const selectors = `[href*="#/${pathToStatic}/${mainMdFilenameWithoutExt}?id="]`
         const allInternalLinks = [
           ...document.querySelectorAll(
-            selectors
-          )
-        ].map(node => {
+            selectors,
+          ),
+        ].map((node) => {
           const [, id] = node.href.split('id=')
           return { node, id }
         })
@@ -95,7 +95,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
         const [safeInternalLinks, unsafeInternalLinks] = allInternalLinks.reduce(
           ([safe, unsafe], elem) =>
             isSafeTag(elem.id) ? [[...safe, elem], unsafe] : [safe, [...unsafe, elem]],
-          [[], []]
+          [[], []],
         )
 
         return [safeInternalLinks, unsafeInternalLinks]
@@ -110,7 +110,7 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
         processSafeInternalLinks(safeInternalLinks)
         processUnSafeInternalLinks(unsafeInternalLinks)
 
-        document.querySelectorAll('a').forEach(link => {
+        document.querySelectorAll('a').forEach((link) => {
           try {
             if (link.href.startsWith('http://localhost') && !link.href.includes('#')) {
               link.removeAttribute('href')
@@ -128,6 +128,6 @@ module.exports = async (page, { mainMdFilenameWithoutExt, pathToStatic }) => {
 
       return errors
     },
-    { mainMdFilenameWithoutExt, pathToStatic }
+    { mainMdFilenameWithoutExt, pathToStatic },
   )
 }

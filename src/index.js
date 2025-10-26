@@ -1,17 +1,17 @@
-const path = require('path')
-const { merge } = require('lodash')
-const logger = require('./logger.js')
-const fs = require('fs')
+const fs = require('node:fs')
+const path = require('node:path')
 const fsExtra = require('fs-extra')
-
+const { merge } = require('lodash')
 const uglify = require('uglify-js')
+
+const logger = require('./logger.js')
 
 const dir = path.resolve(__dirname, '../resources/js')
 if (!fs.existsSync(dir)) fsExtra.mkdirp(dir)
 
 const jsFiles = fs.readdirSync(path.resolve(__dirname, '../resources/js'))
   .filter(file => !['all.js', 'docsify.js'].includes(file))
-  .map(file => path.resolve(__dirname, '../resources/js/' + file))
+  .map(file => path.resolve(__dirname, `../resources/js/${file}`))
   .filter(file => file.endsWith('.js'))
   .sort((a, b) => a.localeCompare(b))
 
@@ -26,10 +26,10 @@ const defaultConfig = {
   pathToPublic: process.env.PDF_OUTPUT_NAME ? path.join('./pdf/', process.env.PDF_OUTPUT_NAME) : './pdf/DOC.pdf',
   contents: 'docs/_sidebar.md',
   pathToDocsifyEntryPoint: '.',
-  cover: 'resources/cover.pdf'
+  cover: 'resources/cover.pdf',
 }
 
-const run = async () => {
+async function run() {
   const docsifyRendererPort = 17000
   const docsifyLiveReloadPort = 18000
 

@@ -1,14 +1,14 @@
-const path = require('path')
-const puppeteer = require('puppeteer')
+const path = require('node:path')
+const merge = require('easy-pdf-merge')
 const fsExtra = require('fs-extra')
+const puppeteer = require('puppeteer')
 const logger = require('./logger.js')
 const runSandboxScript = require('./run-sandbox-script.js')
-const merge = require('easy-pdf-merge')
 
 const SHOW_BROWSER = process.env.SHOW_BROWSER === 'true'
 console.log('Show browser', SHOW_BROWSER)
 
-const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => {
+async function renderPdf({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) {
   const browser = await puppeteer.launch({
     headless: !SHOW_BROWSER,
     devtools: SHOW_BROWSER,
@@ -17,9 +17,9 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       '--disable-setuid-sandbox',
       '--disable-gpu',
       process.env.NO_SANDBOX ? '--no-sandbox' : '',
-      ...(process.env.CHROMIUM_ARGS || '').split(' ').filter(Boolean)
+      ...(process.env.CHROMIUM_ARGS || '').split(' ').filter(Boolean),
     ].filter(Boolean),
-    defaultViewport: { width: 1200, height: 1000 }
+    defaultViewport: { width: 1200, height: 1000 },
   })
 
   try {
@@ -33,17 +33,19 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
 
     const renderProcessingErrors = await runSandboxScript(page, {
       mainMdFilenameWithoutExt,
-      pathToStatic
+      pathToStatic,
     })
 
-    logger.info('Version : ' + await page.browser().version())
+    logger.info(`Version : ${await page.browser().version()}`)
 
     if (SHOW_BROWSER) {
       // Pause 10 minutes
       await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000))
     }
 
-    if (renderProcessingErrors.length) { logger.warn('anchors processing errors', renderProcessingErrors) }
+    if (renderProcessingErrors.length) {
+      logger.warn('anchors processing errors', renderProcessingErrors)
+    }
 
     const pdfOptions = {
       format: 'a4',
@@ -54,7 +56,7 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
       displayHeaderFooter: true,
       path: path.resolve(pathToPublic),
       margin: { left: '1cm', right: '1cm', top: '1cm', bottom: 70 },
-      timeout: 560000 // 5 minutes
+      timeout: 560000, // 5 minutes
     }
 
     console.log(pdfOptions)
@@ -82,22 +84,24 @@ const renderPdf = async ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRe
   }
 }
 
-const htmlToPdf = ({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) => async () => {
-  const { closeProcess } = require('./utils.js')({ pathToStatic })
-  try {
-    return await renderPdf({
-      mainMdFilename,
-      pathToStatic,
-      pathToPublic,
-      docsifyRendererPort,
-      cover
-    })
-  } catch (err) {
-    logger.err('puppeteer renderer error:', err)
-    await closeProcess(1)
+function htmlToPdf({ mainMdFilename, pathToStatic, pathToPublic, docsifyRendererPort, cover }) {
+  return async () => {
+    const { closeProcess } = require('./utils.js')({ pathToStatic })
+    try {
+      return await renderPdf({
+        mainMdFilename,
+        pathToStatic,
+        pathToPublic,
+        docsifyRendererPort,
+        cover,
+      })
+    } catch (err) {
+      logger.err('puppeteer renderer error:', err)
+      await closeProcess(1)
+    }
   }
 }
 
 module.exports = config => ({
-  htmlToPdf: htmlToPdf(config)
+  htmlToPdf: htmlToPdf(config),
 })

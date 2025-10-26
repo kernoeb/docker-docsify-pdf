@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const fsExtra = require('fs-extra')
 require('colors')
 
@@ -6,33 +6,39 @@ const logger = require('./logger.js')
 
 const removeArtifacts = async paths => Promise.all(paths.map(path => new Promise(resolve => fsExtra.remove(path, resolve))))
 
-const prepareEnv = ({ pathToStatic, pathToPublic }) => () => {
-  const pathToStaticDir = path.resolve(pathToStatic)
-  const pathToPublicDir = path.dirname(path.resolve(pathToPublic))
+function prepareEnv({ pathToStatic, pathToPublic }) {
+  return () => {
+    const pathToStaticDir = path.resolve(pathToStatic)
+    const pathToPublicDir = path.dirname(path.resolve(pathToPublic))
 
-  return Promise.all([fsExtra.mkdirp(pathToStaticDir), fsExtra.mkdirp(pathToPublicDir)]).catch(err => {
-    logger.err('prepareEnv', err)
-  })
-}
-
-const cleanUp = ({ pathToStatic, pathToPublic }) => async () => {
-  const isExist = await fsExtra.exists(path.resolve(pathToStatic))
-
-  if (!isExist) {
-    return Promise.resolve()
+    return Promise.all([fsExtra.mkdirp(pathToStaticDir), fsExtra.mkdirp(pathToPublicDir)]).catch((err) => {
+      logger.err('prepareEnv', err)
+    })
   }
-
-  return removeArtifacts([path.resolve(pathToPublic)])
 }
 
-const closeProcess = ({ pathToStatic }) => async code => {
-  await removeArtifacts([path.resolve(pathToStatic)])
+function cleanUp({ pathToStatic, pathToPublic }) {
+  return async () => {
+    const isExist = await fsExtra.exists(path.resolve(pathToStatic))
 
-  return process.exit(code)
+    if (!isExist) {
+      return Promise.resolve()
+    }
+
+    return removeArtifacts([path.resolve(pathToPublic)])
+  }
+}
+
+function closeProcess({ pathToStatic }) {
+  return async (code) => {
+    await removeArtifacts([path.resolve(pathToStatic)])
+
+    return process.exit(code)
+  }
 }
 
 module.exports = config => ({
   prepareEnv: prepareEnv(config),
   cleanUp: cleanUp(config),
-  closeProcess: closeProcess(config)
+  closeProcess: closeProcess(config),
 })
