@@ -1,4 +1,5 @@
 const path = require('path')
+const url = require('url')
 const markdownLinkExtractor = require('markdown-link-extractor')
 const unified = require('unified')
 const parser = require('remark-parse')
@@ -29,28 +30,73 @@ const cleanText = (string) => {
 module.exports = ({ content, name }, _, arr) => {
   let newContent = content
   const b = markdownLinkExtractor(content, true)
-    .filter(({ href: link, title }) => {
-      if (title && title.startsWith(':include')) return false
-      const ext = path.parse(link).ext
+    .filter(({ title }) => !title || !title.startsWith(':include'))
+    .map(({ href }) => ({ href, parsed: url.parse(href) }))
+    .filter(({ parsed }) => {
+      const ext = path.parse(parsed.pathname).ext
       return ext === '' || ext === '.md'
     })
-    .map(v => v.href)
-    .map(link => ({ file: arr.find(({ name }) => name.includes(link)), link }))
+    .map(({ href, parsed }) => {
+      const linkPath = parsed.pathname
+      let anchor = parsed.hash ? parsed.hash.substring(1) : null
+      if (!anchor && parsed.query) {
+        const params = new URLSearchParams(parsed.query)
+        if (params.has('id')) {
+          anchor = params.get('id')
+        }
+      }
+      const resolvedPath = path.resolve(path.dirname(name), linkPath)
+      const docsPath = arr.find(({ name }) => name.endsWith('docs/README.md'))
+      const docsDir = docsPath ? path.dirname(docsPath.name) : ''
+
+      return {
+        file: arr.find(({ name: fileName }) => {
+          if (fileName === resolvedPath) return true
+          if (fileName === `${resolvedPath}.md`) return true
+
+          if (docsDir) {
+            const resolvedFromDocs = path.resolve(docsDir, linkPath)
+            if (fileName === resolvedFromDocs) return true
+            if (fileName === `${resolvedFromDocs}.md`) return true
+          }
+          return false
+        }),
+        link: href,
+        anchor
+      }
+    })
     .filter(({ file }) => file)
-    .map(({ file: { content }, link }) => ({
+    .map(({ file: { content }, link, anchor }) => ({
       ast: unified().use(parser)
         .parse(content),
-      link
+      link,
+      anchor
     }))
-    .map(({ ast, link }) => {
-      const [a] = ast.children.filter(({ type }) => type === 'heading')
-      if (!a) {
+    .map(({ ast, link, anchor }) => {
+      let headingNode
+      const headings = ast.children.filter(({ type }) => type === 'heading')
+
+      if (anchor) {
+        for (const heading of headings) {
+          const array = []
+          recursiveGetValueInChildren(heading.children, array)
+          const value = cleanText(array.join(' ')).trim()
+          if (slug(value) === anchor) {
+            headingNode = heading
+            break
+          }
+        }
+      } else {
+        [headingNode] = headings
+      }
+
+      if (!headingNode) {
         console.error('no heading (non blocking error)', link)
         return { link, unsafeTag: '' }
       }
 
       const array = []
-      recursiveGetValueInChildren(a.children, array)
+      recursiveGetValueInChildren(headingNode.children, array)
       const value = cleanText(array.join(' ')).trim()
 
       return { link, unsafeTag: value }
@@ -65,7 +111,8 @@ module.exports = ({ content, name }, _, arr) => {
     }))
 
   b.forEach(({ tag, link }) => {
-    newContent = newContent.replace(new RegExp('\\[(.*)\\]\\(' + link + '\\)'), `[$1](${tag})`)
+    const escapedLink = link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    newContent = newContent.replace(new RegExp('\\[(.*)\\]\\(' + escapedLink + '\\)'), `[$1](${tag})`)
   })
 
   return { content: newContent, name }

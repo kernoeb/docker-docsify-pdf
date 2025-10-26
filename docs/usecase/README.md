@@ -2,11 +2,16 @@
 
 This link is very [cool](example.md).
 
-This one doesn't have an extension, but it works : [example](example).  
+This one doesn't have an extension, but it works : [example](example).
 Another way : [example](usecase/example).
 
+A specific link in the page [here](example#specific-section)
+Another specific link in the page [here with .md](example.md#specific-section)
+Another specific link in the page [here with query param](example?id=specific-section)
+Another specific link in the page [here with .md and query param](example.md?id=specific-section)
+
 | Syntax    | Description |
-|-----------|-------------|
+| --------- | ----------- |
 | Header    | Title       |
 | Paragraph | Text        |
 
