@@ -33,6 +33,7 @@ module.exports = ({ content, name }, _, arr) => {
     .filter(({ title }) => !title || !title.startsWith(':include'))
     .map(({ href }) => ({ href, parsed: url.parse(href) }))
     .filter(({ parsed }) => {
+      if (!parsed.pathname) return false
       const ext = path.parse(parsed.pathname).ext
       return ext === '' || ext === '.md'
     })
